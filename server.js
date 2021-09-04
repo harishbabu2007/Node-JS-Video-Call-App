@@ -5,7 +5,6 @@ const io = require("socket.io")(server);
 const { v4: uuidV4 } = require("uuid");
 
 const { ExpressPeerServer } = require("peer");
-const { receiveMessageOnPort } = require("worker_threads");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
@@ -20,6 +19,10 @@ app.get("/", (req, res) => {
 
 app.get("/:room", (req, res) => {
   res.render("room", { roomId: req.params.room });
+});
+
+app.get("/meetings/thanks", (req, res) => {
+  res.render("thanks");
 });
 
 io.on("connection", (socket) => {

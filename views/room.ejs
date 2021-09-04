@@ -27,7 +27,10 @@
   </head>
   <body>
     <div class="main">
-      <div class="main__left">
+      <div class="main__left" id="main__left_id">
+        <div class="open-chat">
+          <button onclick="openNav()" class="open-chat-btn">Chat</button>
+        </div>
         <div class="main__videos">
           <div id="video-grid"></div>
         </div>
@@ -52,17 +55,22 @@
           </div>
           <div class="main__controls_block">
             <div class="main__controls_button">
-              <span style="color: red">Leave Meeting</span>
+              <span style="color: red" onclick="LeaveMeeting()"
+                >Leave Meeting</span
+              >
             </div>
           </div>
         </div>
       </div>
-      <div class="main__right">
+      <div class="main__right" id="main__right_id">
         <div class="main__header">
-          <h6>Chat</h6>
+          <h6>
+            <span onclick="closeNav()" class="closebtn">x</span>
+          </h6>
+          <h6 style="text-align: center">Chat</h6>
         </div>
         <div class="main__chat_window">
-          <ul class="messages" id="msg_container"></ul>
+          <div class="messages" id="msg_container"></div>
         </div>
         <div class="main__message_container">
           <input

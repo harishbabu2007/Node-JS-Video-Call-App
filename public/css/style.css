@@ -6,13 +6,14 @@
 }
 
 #video-grid {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-auto-rows: 300px;
 }
 
 video {
-  width: 400px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 5px;
 }
@@ -26,6 +27,22 @@ video {
   flex: 0.8;
   display: flex;
   flex-direction: column;
+  transition: 0.5s;
+}
+
+.closebtn {
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  transition: 0.3s;
+  margin-right: 20px;
+  display: block;
+  cursor: pointer;
+  padding-left: 20px;
+}
+
+.closebtn:hover {
+  color: #f1f1f1;
 }
 
 .main__right {
@@ -34,12 +51,12 @@ video {
   flex-direction: column;
   background-color: #232423;
   border-left: 1px solid #3d3d42;
+  z-index: 1;
+  overflow-x: hidden;
 }
 
 .main__header {
   color: #f5f5f5;
-  text-align: center;
-  padding: 10px 30px;
   font-size: 25px;
 }
 
@@ -109,4 +126,41 @@ video {
 
 .mute {
   color: red;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.messages {
+  padding: 20px;
+  text-overflow: clip;
+}
+
+.open-chat {
+  background-color: #111;
+  padding: 10px;
+}
+
+.open-chat-btn {
+  float: right;
+  border: none;
+  font-size: 20px;
+  width: 100px;
 }

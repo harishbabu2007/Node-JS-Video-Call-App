@@ -10,7 +10,7 @@ var getUserMedia =
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
 });
 
 const myVideo = document.createElement("video");
@@ -166,4 +166,18 @@ const setStartVidButton = () => {
     <span>Stop Video</span>
   `;
   startStopVideoEle.innerHTML = html;
+};
+
+const openNav = () => {
+  document.getElementById("main__right_id").style.flex = "0.2";
+  document.getElementById("main__left_id").style.flex = "0.8";
+};
+
+const closeNav = () => {
+  document.getElementById("main__right_id").style.flex = "0";
+  document.getElementById("main__left_id").style.flex = "1";
+};
+
+const LeaveMeeting = () => {
+  window.location = "/meetings/thanks";
 };
