@@ -10,7 +10,7 @@ var getUserMedia =
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "3000",
+  port: "443",
 });
 
 // server port 443
