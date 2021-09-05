@@ -10,8 +10,10 @@ var getUserMedia =
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
 });
+
+// server port 443
 
 const myVideo = document.createElement("video");
 myVideo.muted = true;
@@ -27,7 +29,7 @@ navigator.mediaDevices
   })
   .then((stream) => {
     MyVideoStream = stream;
-    addVideoStream(myVideo, stream);
+    addVideoStream(myVideo, MyVideoStream);
 
     myPeer.on("call", (call) => {
       call.answer(MyVideoStream);
@@ -35,6 +37,11 @@ navigator.mediaDevices
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
+      call.on("close", () => {
+        video.remove();
+      });
+
+      peers[call.peer] = call;
     });
 
     socket.on("user-connected", (userId) => {
@@ -46,12 +53,15 @@ myPeer.on("call", function (call) {
   getUserMedia(
     { video: true, audio: true },
     function (stream) {
-      MyVideoStream = stream;
       call.answer(MyVideoStream); // Answer the call with an A/V stream.
       const video = document.createElement("video");
       call.on("stream", function (remoteStream) {
         addVideoStream(video, remoteStream);
       });
+      call.on("close", () => {
+        video.remove();
+      });
+      peers[call.peer] = call;
     },
     function (err) {
       console.log("Failed to get local stream", err);

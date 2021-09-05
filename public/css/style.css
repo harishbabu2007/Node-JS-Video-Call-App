@@ -6,9 +6,13 @@
 }
 
 #video-grid {
+  flex: 1;
   display: grid;
+  row-gap: 10px;
+  column-gap: 10px;
   grid-template-columns: repeat(auto-fill, 300px);
   grid-auto-rows: 300px;
+  margin-left: 30px;
 }
 
 video {
@@ -24,7 +28,7 @@ video {
 }
 
 .main__left {
-  flex: 0.8;
+  flex: 1;
   display: flex;
   flex-direction: column;
   transition: 0.5s;
@@ -46,7 +50,7 @@ video {
 }
 
 .main__right {
-  flex: 0.2;
+  flex: 0;
   display: flex;
   flex-direction: column;
   background-color: #232423;
