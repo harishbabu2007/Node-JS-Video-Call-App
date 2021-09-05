@@ -10,7 +10,8 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/oauth2/callback",
+      callbackURL:
+        "http://video-call-app-harish.herokuapp.com/auth/google/oauth2/callback",
       passReqToCallback: true,
     },
     (request, accessToken, refreshToken, profile, done) => {
