@@ -2,6 +2,7 @@ const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const message_container = document.getElementById("msg_container");
 const participant_container = document.getElementById("participant_container");
+const join_audio = new Audio("/media/join.wav");
 
 var getUserMedia =
   navigator.getUserMedia ||
@@ -11,7 +12,7 @@ var getUserMedia =
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "3000",
 });
 
 // server port 443
@@ -30,13 +31,13 @@ navigator.mediaDevices
   })
   .then((stream) => {
     MyVideoStream = stream;
-    addVideoStream(myVideo, MyVideoStream);
+    addVideoStream(myVideo, MyVideoStream, false);
 
     myPeer.on("call", (call) => {
       call.answer(MyVideoStream);
       const video = document.createElement("video");
       call.on("stream", (userVideoStream) => {
-        addVideoStream(video, userVideoStream);
+        addVideoStream(video, userVideoStream, true);
       });
       call.on("close", () => {
         video.remove();
@@ -57,7 +58,7 @@ myPeer.on("call", function (call) {
       call.answer(MyVideoStream); // Answer the call with an A/V stream.
       const video = document.createElement("video");
       call.on("stream", function (remoteStream) {
-        addVideoStream(video, remoteStream);
+        addVideoStream(video, remoteStream, true);
       });
       call.on("close", () => {
         video.remove();
@@ -73,6 +74,7 @@ myPeer.on("call", function (call) {
 socket.on("user-disconnected", (userId, roomId) => {
   if (peers[userId]) {
     peers[userId].close();
+    join_audio.play();
   }
 });
 
@@ -84,7 +86,7 @@ function connectToNewUser(userId, stream) {
   const call = myPeer.call(userId, stream);
   const video = document.createElement("video");
   call.on("stream", (userVideoStream) => {
-    addVideoStream(video, userVideoStream);
+    addVideoStream(video, userVideoStream, true);
   });
   call.on("close", () => {
     video.remove();
@@ -93,7 +95,8 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call;
 }
 
-function addVideoStream(video, stream) {
+function addVideoStream(video, stream, other) {
+  if (other) join_audio.play();
   video.srcObject = stream;
   video.addEventListener("loadedmetadata", () => {
     video.play();
