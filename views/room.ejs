@@ -15,6 +15,8 @@
     ></script>
     <script>
       const ROOM_ID = "<%= roomId %>";
+      const USER_NAME = "<%= display_name %>";
+      const PIC = "<%= profilePicture %>";
     </script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="js/script.js" defer></script>
@@ -30,6 +32,9 @@
       <div class="main__left" id="main__left_id">
         <div class="open-chat">
           <button onclick="openNav()" class="open-chat-btn">Chat</button>
+          <button onclick="openPart()" class="open-chat-btn">
+            Participants
+          </button>
         </div>
         <div class="main__videos">
           <div id="video-grid"></div>
@@ -60,6 +65,17 @@
               >
             </div>
           </div>
+        </div>
+      </div>
+      <div class="main__right" id="main__right_id_participants">
+        <div class="main__header">
+          <h6>
+            <span onclick="closePart()" class="closebtn">x</span>
+          </h6>
+          <h6 style="text-align: center">Participants</h6>
+        </div>
+        <div class="main__chat_window">
+          <div class="messages" id="participant_container"></div>
         </div>
       </div>
       <div class="main__right" id="main__right_id">

@@ -1,6 +1,7 @@
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const message_container = document.getElementById("msg_container");
+const participant_container = document.getElementById("participant_container");
 
 var getUserMedia =
   navigator.getUserMedia ||
@@ -10,7 +11,7 @@ var getUserMedia =
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: "433",
 });
 
 // server port 443
@@ -69,12 +70,14 @@ myPeer.on("call", function (call) {
   );
 });
 
-socket.on("user-disconnected", (userId) => {
-  if (peers[userId]) peers[userId].close();
+socket.on("user-disconnected", (userId, roomId) => {
+  if (peers[userId]) {
+    peers[userId].close();
+  }
 });
 
 myPeer.on("open", (id) => {
-  socket.emit("join-room", ROOM_ID, id);
+  socket.emit("join-room", ROOM_ID, id, USER_NAME, PIC);
 });
 
 function connectToNewUser(userId, stream) {
@@ -179,15 +182,53 @@ const setStartVidButton = () => {
 };
 
 const openNav = () => {
+  document.getElementById("main__right_id_participants").style.flex = "0";
   document.getElementById("main__right_id").style.flex = "0.2";
   document.getElementById("main__left_id").style.flex = "0.8";
 };
 
 const closeNav = () => {
   document.getElementById("main__right_id").style.flex = "0";
+  document.getElementById("main__right_id_participants").style.flex = "0";
   document.getElementById("main__left_id").style.flex = "1";
 };
 
 const LeaveMeeting = () => {
   window.location = "/meetings/thanks";
 };
+
+const openPart = () => {
+  document.getElementById("main__right_id").style.flex = "0";
+  document.getElementById("main__left_id").style.flex = "0.8";
+  document.getElementById("main__right_id_participants").style.flex = "0.2";
+};
+
+const closePart = () => {
+  document.getElementById("main__right_id").style.flex = "0";
+  document.getElementById("main__left_id").style.flex = "1";
+  document.getElementById("main__right_id_participants").style.flex = "0";
+};
+
+socket.on("get-users", async (roomId) => {
+  await fetch(`/data/participants/${roomId}`).then((res) =>
+    res.json().then((data) => {
+      const parent_div = document.createElement("div");
+
+      data.map((item) => {
+        const div_ele = document.createElement("div");
+        div_ele.className = "participant";
+
+        const image = document.createElement("img");
+        image.src = item?.profilePicture;
+        div_ele.append(image);
+
+        const name = document.createElement("p");
+        name.innerText = item?.userName;
+        div_ele.append(name);
+
+        parent_div.append(div_ele);
+      });
+      participant_container.innerHTML = parent_div.innerHTML;
+    })
+  );
+});

@@ -166,5 +166,25 @@ video {
   float: right;
   border: none;
   font-size: 20px;
-  width: 100px;
+  width: auto;
+  margin-left: 20px;
+  padding: 10px;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.participant > img {
+  object-fit: contain;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.participant > p {
+  margin-left: 10px;
+  color: #f5f5f5;
 }
