@@ -124,8 +124,8 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("get-users", roomId);
     });
 
-    socket.on("message", (msg, roomId) => {
-      io.to(roomId).emit("createMessage", msg);
+    socket.on("message", (msg, roomId, user_name) => {
+      io.to(roomId).emit("createMessage", msg, user_name);
     });
   });
 });

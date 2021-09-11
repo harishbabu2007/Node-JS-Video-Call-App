@@ -9,13 +9,23 @@ var getUserMedia =
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
 
+const is_dev_server = false;
+
+const get_peer_port = (is_dev_server) => {
+  if (is_dev_server) {
+    return "3000";
+  }
+  return "443";
+};
+
+// server port 443
+// dev port 3000
+
 const myPeer = new Peer(undefined, {
   path: "/peerjs",
   host: "/",
-  port: "443",
+  port: get_peer_port(is_dev_server),
 });
-
-// server port 443
 
 const myVideo = document.createElement("video");
 myVideo.muted = true;
@@ -108,21 +118,29 @@ let text = $("input");
 
 $("html").keydown((e) => {
   if (e.which == 13 && text.val().length !== 0) {
-    socket.emit("message", text.val(), ROOM_ID);
+    socket.emit("message", text.val(), ROOM_ID, USER_NAME);
     text.val("");
   }
 });
 
-socket.on("createMessage", (msg) => {
-  createMessage(msg);
+socket.on("createMessage", (msg, user_name) => {
+  createMessage(msg, user_name);
 });
 
-const createMessage = (msg) => {
+const createMessage = (msg, user_name) => {
   const new_message = document.createElement("p");
   new_message.innerText = msg;
   new_message.style.color = "#f5f5f5";
   new_message.style.padding = 20;
-  new_message.style.marginTop = "10px";
+
+  const user = document.createElement("p");
+  user.innerText = "by " + user_name;
+  user.style.color = "#f5f5f5";
+  user.style.padding = 20;
+  user.style.marginTop = "10px";
+  user.style.fontWeight = "bold";
+
+  message_container.append(user);
   message_container.append(new_message);
 };
 
