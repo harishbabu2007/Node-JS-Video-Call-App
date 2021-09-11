@@ -9,7 +9,7 @@ var getUserMedia =
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
 
-const is_dev_server = false;
+const is_dev_server = true;
 
 const get_peer_port = (is_dev_server) => {
   if (is_dev_server) {

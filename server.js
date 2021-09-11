@@ -45,7 +45,7 @@ const isLoggedIn = (req, res, next) => {
 };
 
 app.get("/login", (req, res) => {
-  res.send(`<a href='/auth/google/oauth2'>Authenticate with Google</a>`);
+  res.render("login");
 });
 
 app.get(
